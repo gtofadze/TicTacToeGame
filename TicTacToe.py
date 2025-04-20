@@ -1,15 +1,7 @@
 class Player:
 
     def __init__(self, name):
-        self._name = name  # calls self._name and assigns name
-
-    @property
-    def name(self):
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        self._name = name
+        self.name = name  # calls self._name and assigns name
 
 
 class Board:
@@ -25,20 +17,12 @@ class Board:
     def board(self):
         return self._board
 
-    @property
-    def size(self):
-        return self._size
-
-    @size.setter
-    def size(self, size):
-        self._size = size
-
     def get_occ(self):
         return self._occupied
 
     def print_board(self):
-        board = self.board
-        size = self.size
+        board = self._board
+        size = self._size
         header = (f"    {i}" for i in range(size))
         str = "".join(header)
         print(str)
@@ -61,7 +45,7 @@ class Board:
 
     def find_winner(self):
         board = self._board
-        size = self.size
+        size = self._size
 
         # Checking Rows
         for row in board:
@@ -97,6 +81,7 @@ class TicTacToeGame:
         self._board = Board(size)
         self._symbol_player = {"X": p1, "O": p2}
         self._winner = None
+        self._is_tie = False
         self._turn = "X"
 
     def switch_turn(self):
@@ -128,10 +113,11 @@ class TicTacToeGame:
             print("Enter again \n")
 
     def play_game(self):
+        size = self._board._size
         board = self._board
         print("\n The game started \n")
 
-        while True:
+        for i in range(size ** 2):
 
             board.print_board()
             print(" ")
@@ -154,11 +140,18 @@ class TicTacToeGame:
             print(" ")
             self.switch_turn()
 
-        print(" ")
-        board.print_board()
-        print(" ")
-        winner_name = self._symbol_player[self._winner].name
-        print(f"The winner is {winner_name}, - {self._winner}")
+        if self._winner == None:
+            print(" ")
+            board.print_board()
+            print(" ")
+            print('It\'s a Tie')
+
+        else:
+            print(" ")
+            board.print_board()
+            print(" ")
+            winner_name = self._symbol_player[self._winner].name
+            print(f"The winner is {winner_name}, - {self._winner}")
 
 
 print("Selecting initial Settings \n")
